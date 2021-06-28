@@ -1,0 +1,17 @@
+
+#gameboard {
+    
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    width: 300px;
+}
+
+#gameboard div {
+    border: 1px solid black;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
