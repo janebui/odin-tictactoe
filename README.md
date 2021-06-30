@@ -4,4 +4,4 @@ by Jane Bui
 This project from the Odin Project focuses on modules and factory functions.
 
 ## Live Demo
-[Link Here]("https://")
+[View Project]("https://janebui.github.io/odin-tictactoe/")
