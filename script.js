@@ -3,26 +3,29 @@
 
 // Player-making factory
 const Player = (name, marker) => {
-  return { name, marker };
+    return {
+        name,
+        marker
+    };
 };
 
 
 // gameBoard module
 const gameBoard = (function () {
     'use strict';
+
     let gameActive = true;
     let human = Player("Jane", "X");
     let computer = Player("Computer", "O")
     let currentPlayer = human;
+    let gameResult = 0; // 0 = no winner yet, 1 = someone won, 2 = draw
 
-   
     // initialize game
     let game = [];
     (function (game) {
         for (let i = 0; i < 9; i++) {
             game.push("");
         }
-        console.log(game);
     })(game);
 
     // win conditions
@@ -37,41 +40,79 @@ const gameBoard = (function () {
         [2, 4, 6]
     ];
 
-    // when a cell is clicked, check if it has been marked already, otherwise mark the cell by calling markCell
+    // when a cell is clicked, check if it has been marked already, otherwise mark the cell 
     function handleCellClick(e) {
         const clickedCell = e.target;
         const clickedCellIndex = clickedCell.getAttribute('data-index');
 
         // check if cell has already been marked
-        if(game[clickedCellIndex] !== "" || !gameActive) {
+        if (game[clickedCellIndex] !== "" || !gameActive) {
             return;
+        } else {
+            game[clickedCellIndex] = currentPlayer.marker;
+            clickedCell.innerHTML = currentPlayer.marker;
+            handleResultValidation();
+        }
+
+        handlePlayerChange();
+    }
+
+
+
+    function handlePlayerChange() {
+        if ( currentPlayer == human ) {
+            currentPlayer = computer;
         }
 
         else {
-            markCell(clickedCell, clickedCellIndex);
-            handleResultValidation();
+            currentPlayer = human;
         }
+        displayController.displayCurrentPlayer(currentPlayer, gameResult);
     }
 
-    // mark the cell that was clicked
-    function markCell(clickedCell, clickedCellIndex) {
-        console.log(clickedCellIndex)
-        game[clickedCellIndex] = currentPlayer.marker;
-        clickedCell.innerHTML = currentPlayer.marker;
-    }
-    function handlePlayerChange() {
     
-    }
+
     function handleResultValidation() {
-    
-    }
-    
-    function handleRestartGame() {
-    
-    }
-    
 
-    return { game, currentPlayer, handleCellClick };
+        for (let i = 0; i < winConditions.length; i++) {
+
+            const checkWin = winConditions[i]; // eg [2, 4, 6]
+            let a = game[checkWin[0]];
+            let b = game[checkWin[1]];
+            let c = game[checkWin[2]];
+
+            // skip win condition if not all 3 cells marked
+            if (a === '' || b === '' || c === '') {
+                continue;
+            }
+
+            // when all 3 cells of win condition are marked, check if the same marker
+            if (a === b && b === c) {
+                gameResult = 1;
+                displayController.displayWinner(currentPlayer, gameResult);
+                break;
+            }
+
+        }
+
+        if (!game.includes("")) {
+            gameActive = false;
+            gameResult = 2;
+        }
+
+    }
+
+    function handleRestartGame() {
+
+    }
+
+    return {
+        game,
+        handleCellClick,
+        handlePlayerChange,
+        gameResult,
+        currentPlayer
+    };
     // function _privateMethod() {
     //     console.log("private");
     // }
@@ -82,13 +123,11 @@ const gameBoard = (function () {
 
     // return {
     //     publicMethod
-    // }
+    // }f
 })();
-
 
 // display module
 const displayController = (function () {
-    'use strict';
     const boardDisplay = document.querySelector('#gameboard');
     const statusDisplay = document.querySelector('#game-status');
     const section = document.querySelector('section');
@@ -98,16 +137,44 @@ const displayController = (function () {
     playerNode.appendChild(playerTextNode);
     section.appendChild(playerNode);
 
-
-
     boardDisplay.innerHTML = gameBoard.game.map((item, i) => {
         return `<div data-index="${i}" class="cell">${item}</div>`
     }).join('');
 
+    function displayCurrentPlayer(currentPlayer, gameResult) {
+        if (gameResult != 1) {
+            playerNode.innerHTML = `It's ${currentPlayer.name}'s turn.`;
+        }
+        else {
+            playerNode.innerHTML = "";
+        }
+    }
+
+
+    function displayWinner(currentPlayer, gameResult) {
+        switch (gameResult) {
+            case 1:
+                statusDisplay.innerHTML = `${currentPlayer.name} wins!`;
+                break;
+            case 2:
+                statusDisplay.innerHTML = "Draw";
+                break;
+            // default:
+            //     console.log('neither');
+            //     break;
+        }
+
+    }
+
+    document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', gameBoard.handleCellClick));
+
+    return {
+        displayWinner,
+        displayCurrentPlayer
+    }
+
 })();
 
-document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', gameBoard.handleCellClick));
-// document.querySelector('#restart').addEventListener('click', handleRestartGame);
 
 
 
