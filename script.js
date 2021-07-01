@@ -56,8 +56,8 @@ const gameBoard = (function () {
         if (game[clickedCellIndex] !== '' || !gameActive) {
             return;
         } else { // mark the empty cell
-            game[clickedCellIndex] = currentPlayer.marker;
-            clickedCell.innerHTML = currentPlayer.marker;
+            game[clickedCellIndex] = human.marker;
+            clickedCell.innerHTML = human.marker;
 
             handleResultValidation();
             if (gameActive) {
@@ -86,21 +86,24 @@ const gameBoard = (function () {
 
         // if computer didn't win this turn, return turn to human
         if(gameActive) { 
+            
             handlePlayerChange(); 
         }
     }
 
     // changes player after a player has taken a turn
     function handlePlayerChange() {
+
         if (currentPlayer == human) {
             currentPlayer = computer;
+            
             // simulate a delay before letting computer make a move
-            // setTimeout(moveComputer, 1000);
-            moveComputer();
+            setTimeout(moveComputer, 500);
+            // moveComputer();
         } else {
             currentPlayer = human;
         }
-
+        // console.log(currentPlayer.name)
         displayController.displayStatus(currentPlayer, gameResult);
     }
 
