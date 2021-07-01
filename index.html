@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
     <header>
         <h1>Tic Tac Toe</h1>
     </header>
 
     <section>
-        <div id="gameboard">
+        <form id="name-input">
+            <label for="name">Please enter your name:</label>
+            <input id="name" type="text" autofocus="autofocus">
+            <button id="name-btn">Enter</button>
+        </form>
 
+        <h2><span id="your-name">You</span> vs. Computer</h2>
+
+        <div id="gameboard">
+            <span class="border-override"></span>
         </div>
 
+        <h3 id="game-status"></h3>
+        <button id="restart">Restart</button>
     </section>
-    
-    <h2 id="game-status"></h2>
-    <button id="restart">Restart</button>
+
+
     <footer>
-        by <a href="https://www.janebui.com" target="_blank">Jane Bui</a>
+        by <a href="https://www.janebui.com" target="_blank">Jane Bui</a> | <a href="https://github.com/janebui/odin-tictactoe" target="_blank">Github Repo</a>
     </footer>
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -14,19 +14,17 @@ const Player = (name, marker) => {
 const gameBoard = (function () {
     'use strict';
 
-    let gameActive = true;
-    let human = Player("Jane", "X");
-    let computer = Player("Computer", "O")
+    let human = Player('Human', '<span class="material-icons-outlined x">close</span>');
+    let computer = Player('Computer', '<span class="material-icons-outlined">radio_button_unchecked</span>')
     let currentPlayer = human;
+    let gameActive = true;
     let gameResult = 0; // 0 = no winner yet, 1 = someone won, 2 = draw
 
+    const nameInput = document.getElementById('name-input');
+    const restartBtn = document.querySelector('#restart');
+
     // initialize game
-    let game = [];
-    (function (game) {
-        for (let i = 0; i < 9; i++) {
-            game.push("");
-        }
-    })(game);
+    let game = new Array(9).fill("");
 
     // win conditions
     const winConditions = [
@@ -40,38 +38,75 @@ const gameBoard = (function () {
         [2, 4, 6]
     ];
 
+    function handleName(e) {
+        e.preventDefault();
+        human.name = document.getElementById('name').value;
+
+        document.getElementById('your-name').innerHTML = human.name
+
+        this.reset();
+    }
+
     // when a cell is clicked, check if it has been marked already, otherwise mark the cell 
     function handleCellClick(e) {
-        const clickedCell = e.target;
-        const clickedCellIndex = clickedCell.getAttribute('data-index');
+        let clickedCell = e.target;
+        let clickedCellIndex = clickedCell.getAttribute('data-index');
 
         // check if cell has already been marked
-        if (game[clickedCellIndex] !== "" || !gameActive) {
+        if (game[clickedCellIndex] !== '' || !gameActive) {
             return;
-        } else {
+        } else { // mark the empty cell
             game[clickedCellIndex] = currentPlayer.marker;
             clickedCell.innerHTML = currentPlayer.marker;
-            handleResultValidation();
-        }
 
-        handlePlayerChange();
+            handleResultValidation();
+            if (gameActive) {
+                handlePlayerChange();
+            }
+        }
     }
 
+    function moveComputer() {
+        // find the cells that are still available
+        let avail = [];
+        let computerChoice;
 
+        // reduce to avail array with indexes of the available cells
+        game.reduce(function (a, c, i) {
+            if (c == '') a.push(i)
+            return a;
+        }, avail);
 
-    function handlePlayerChange() {
-        if ( currentPlayer == human ) {
-            currentPlayer = computer;
+        // pick a random cell from the cells that are available
+        computerChoice = avail[Math.floor(Math.random() * avail.length)];
+
+        game[computerChoice] = computer.marker;
+        handleResultValidation();
+        displayController.displayBoard(game);
+
+        // if computer didn't win this turn, return turn to human
+        if(gameActive) { 
+            handlePlayerChange(); 
         }
+    }
 
-        else {
+    // changes player after a player has taken a turn
+    function handlePlayerChange() {
+        if (currentPlayer == human) {
+            currentPlayer = computer;
+            // simulate a delay before letting computer make a move
+            // setTimeout(moveComputer, 1000);
+            moveComputer();
+        } else {
             currentPlayer = human;
         }
-        displayController.displayCurrentPlayer(currentPlayer, gameResult);
+
+        displayController.displayStatus(currentPlayer, gameResult);
     }
 
-    
 
+
+    // check if anybody won yet
     function handleResultValidation() {
 
         for (let i = 0; i < winConditions.length; i++) {
@@ -88,43 +123,41 @@ const gameBoard = (function () {
 
             // when all 3 cells of win condition are marked, check if the same marker
             if (a === b && b === c) {
+                gameActive = false;
                 gameResult = 1;
-                displayController.displayWinner(currentPlayer, gameResult);
+                displayController.displayStatus(currentPlayer, gameResult);
                 break;
             }
-
         }
 
-        if (!game.includes("")) {
+        // Draw. All cells filled out but nobody won
+        if (!game.includes('')) {
             gameActive = false;
             gameResult = 2;
+            displayController.displayStatus(currentPlayer, gameResult);
         }
-
     }
 
-    function handleRestartGame() {
-
+    function restartGame() {
+        game.fill("");
+        gameActive = true;
+        gameResult = 0;
+        displayController.displayBoard(game);
+        displayController.displayStatus(human, gameResult);
     }
+
+    nameInput.addEventListener('submit', handleName);
+    restartBtn.addEventListener('click', restartGame);
 
     return {
         game,
         handleCellClick,
-        handlePlayerChange,
         gameResult,
         currentPlayer
     };
-    // function _privateMethod() {
-    //     console.log("private");
-    // }
 
-    // function publicMethod() {
-    //     console.log("public")
-    // }
-
-    // return {
-    //     publicMethod
-    // }f
 })();
+
 
 // display module
 const displayController = (function () {
@@ -132,50 +165,40 @@ const displayController = (function () {
     const statusDisplay = document.querySelector('#game-status');
     const section = document.querySelector('section');
 
-    const playerNode = document.createElement("p");
-    const playerTextNode = document.createTextNode(`It's ${gameBoard.currentPlayer.name}'s turn.`);
+    const playerNode = document.createElement('p');
+    const playerTextNode = document.createTextNode('');
     playerNode.appendChild(playerTextNode);
     section.appendChild(playerNode);
 
-    boardDisplay.innerHTML = gameBoard.game.map((item, i) => {
-        return `<div data-index="${i}" class="cell">${item}</div>`
-    }).join('');
+    function displayBoard(game) {
+        boardDisplay.innerHTML = game.map((item, i) => {
+            return `<div data-index="${i}" class="cell">${item}</div>`
+        }).join('');
 
-    function displayCurrentPlayer(currentPlayer, gameResult) {
-        if (gameResult != 1) {
-            playerNode.innerHTML = `It's ${currentPlayer.name}'s turn.`;
-        }
-        else {
-            playerNode.innerHTML = "";
-        }
-    }
+        document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', gameBoard.handleCellClick));
+    };
+    displayBoard(gameBoard.game);
 
-
-    function displayWinner(currentPlayer, gameResult) {
+    function displayStatus(currentPlayer, gameResult) {
         switch (gameResult) {
+            case 0:
+                statusDisplay.textContent = `It's ${currentPlayer.name}'s turn.`;
+                break;
             case 1:
-                statusDisplay.innerHTML = `${currentPlayer.name} wins!`;
+                statusDisplay.textContent = `${currentPlayer.name} wins!`;
                 break;
             case 2:
-                statusDisplay.innerHTML = "Draw";
+                statusDisplay.textContent = "Draw";
                 break;
-            // default:
-            //     console.log('neither');
-            //     break;
         }
-
     }
 
-    document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', gameBoard.handleCellClick));
-
     return {
-        displayWinner,
-        displayCurrentPlayer
+        displayStatus,
+        displayBoard
     }
 
 })();
-
-
 
 
 // Set up your HTML and write a JavaScript function that will render the contents of the gameboard array to the webpage (for now you can just manually fill in the array with "X"s and "O"s)
