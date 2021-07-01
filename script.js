@@ -130,14 +130,19 @@ const gameBoard = (function () {
                 displayController.displayStatus(currentPlayer, gameResult);
                 break;
             }
+            else if (!game.includes('')) {
+                gameActive = false;
+                gameResult = 2;
+                displayController.displayStatus(currentPlayer, gameResult);
+            }
         }
 
         // Draw. All cells filled out but nobody won
-        if (!game.includes('')) {
-            gameActive = false;
-            gameResult = 2;
-            displayController.displayStatus(currentPlayer, gameResult);
-        }
+        // if (!game.includes('')) {
+        //     gameActive = false;
+        //     gameResult = 2;
+        //     displayController.displayStatus(currentPlayer, gameResult);
+        // }
     }
 
     function restartGame() {
