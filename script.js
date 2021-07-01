@@ -82,12 +82,13 @@ const gameBoard = (function () {
 
         game[computerChoice] = computer.marker;
         handleResultValidation();
-        displayController.displayBoard(game);
+        displayController.displayBoard(game); 
 
         // if computer didn't win this turn, return turn to human
         if(gameActive) { 
             
-            handlePlayerChange(); 
+            handlePlayerChange();
+            
         }
     }
 
@@ -127,16 +128,16 @@ const gameBoard = (function () {
             if (a === b && b === c) {
                 gameActive = false;
                 gameResult = 1;
-                displayController.displayStatus(currentPlayer, gameResult);
+                // displayController.displayStatus(currentPlayer, gameResult);
                 break;
             }
             else if (!game.includes('')) {
                 gameActive = false;
                 gameResult = 2;
-                displayController.displayStatus(currentPlayer, gameResult);
+                // displayController.displayStatus(currentPlayer, gameResult);
             }
         }
-
+        displayController.displayStatus(currentPlayer, gameResult);
         // Draw. All cells filled out but nobody won
         // if (!game.includes('')) {
         //     gameActive = false;
@@ -149,6 +150,7 @@ const gameBoard = (function () {
         game.fill("");
         gameActive = true;
         gameResult = 0;
+        currentPlayer = human;
         displayController.displayBoard(game);
         displayController.displayStatus(human, gameResult);
     }
