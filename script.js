@@ -97,9 +97,8 @@ const gameBoard = (function () {
         if (currentPlayer == human) {
             currentPlayer = computer;
             
-            // simulate a delay before letting computer make a move
-            setTimeout(moveComputer, 500);
-            // moveComputer();
+           
+            moveComputer();
         } else {
             currentPlayer = human;
         }
