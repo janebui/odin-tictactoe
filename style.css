@@ -10,6 +10,12 @@ body, section {
     align-items: center;
 }
 
+form {
+    background-color: #266896;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 #gameboard {
     display: grid;
     width: 400px;
@@ -50,16 +56,12 @@ body, section {
     padding: 5px 10px;
 }
 
-#your-name {
+#your-name, .x {
     color: #C5F07F;
 }
 
 .cell {
     cursor: pointer;
-}
-
-.x {
-    color:#C5F07F;
 }
 
 #restart, #name-btn {
