@@ -4,16 +4,19 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
-body, section {
+body,
+section {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: center;
 }
 
-form {
-    background-color: #266896;
-    padding: 10px;
-    border-radius: 5px;
+h1 {
+    font-size: 2.5em;
+    text-shadow: 
+        0 0 1px #3DB39B,
+        0 0 10px #266D96,
+        0 0 50px #266D96
 }
 
 #gameboard {
@@ -24,7 +27,8 @@ form {
     grid-template-rows: repeat(3, 1fr);
 }
 
-#gameboard div:nth-child(3n + 0), div:nth-child(3n -1) {
+#gameboard div:nth-child(3n + 0),
+div:nth-child(3n -1) {
     border-left: 5px solid rgba(0, 0, 0, 0.7);
 }
 
@@ -43,7 +47,7 @@ form {
 }
 
 #name-input {
-    display:flex;
+    display: flex;
     flex-direction: column;
     width: 250px;
 }
@@ -56,68 +60,61 @@ form {
     padding: 5px 10px;
 }
 
-#your-name, .x {
+.marker {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-miterlimit: 10;
+}
+
+.x {
+    stroke: #C5F07F;
+}
+
+#your-name {
     color: #C5F07F;
 }
 
 .cell {
     cursor: pointer;
+    padding: 10px;
 }
 
-#restart, #name-btn {
+#restart,
+#name-btn {
     margin-top: 5px;
     border-radius: 5px;
     border: 0px transparent;
     padding: 5px 20px;
-    background-color: #3DB39B;
     font-family: 'Nunito', sans-serif;
-    font-size:1.2em;
+    font-size: 1.2em;
+    background-color: #3DB39B;
     cursor: pointer;
 }
 
-#restart:hover, #name-btn:hover {
+#restart:hover,
+#name-btn:hover {
     background-color: #C5F07F;
 }
 
 a {
-    color:#3DB39B;
+    color: #3DB39B;
     text-decoration: none;
 }
 
 a:hover {
-    color:#C5F07F;
+    color: #C5F07F;
     text-decoration: underline;
 }
 
-.material-icons-outlined {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 60px;  
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-  
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-  
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-  
-    /* Support for IE. */
-    font-feature-settings: 'liga';
-  
+a:visited {
+    color: #266D96;
 }
 
 @media only screen and (max-width: 400px) {
     #gameboard {
-      width: 300px;
-      height: 300px;
+        width: 300px;
+        height: 300px;
     }
-  }
+}

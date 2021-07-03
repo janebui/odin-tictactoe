@@ -1,6 +1,3 @@
-// You’re going to store the gameboard as an array inside of a Gameboard object, so start there! Your players are also going to be stored in objects… and you’re probably going to want an object to control the flow of the game itself.
-//     Your main goal here is to have as little global code as possible. Try tucking everything away inside of a module or factory. Rule of thumb: if you only ever need ONE of something (gameBoard, displayController), use a module. If you need multiples of something (players!), create them with factories.
-
 // Player-making factory
 const Player = (name, marker) => {
     return {
@@ -14,17 +11,22 @@ const Player = (name, marker) => {
 const gameBoard = (function () {
     'use strict';
 
-    let human = Player('Human', '<span class="material-icons-outlined x">close</span>');
-    let computer = Player('Computer', '<span class="material-icons-outlined">radio_button_unchecked</span>')
+    const X = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">  <g><line class="marker x" x1="9" y1="90" x2="90" y2="9"/><line class="marker x" x1="9" y1="9" x2="90" y2="90"/></g></svg>'
+
+    const O = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve"><circle class="marker" cx="49.5" cy="49.5" r="40.5"/></svg>'
+
+    let human = Player('Human', X);
+    let computer = Player('Computer', O)
     let currentPlayer = human;
+    
     let gameActive = true;
     let gameResult = 0; // 0 = no winner yet, 1 = someone won, 2 = draw
 
-    const nameInput = document.getElementById('name-input');
+    const nameInput = document.querySelector('#name-input');
     const restartBtn = document.querySelector('#restart');
 
     // initialize game
-    let game = new Array(9).fill("");
+    let game = new Array(9).fill('');
 
     // win conditions
     const winConditions = [
@@ -41,9 +43,7 @@ const gameBoard = (function () {
     function handleName(e) {
         e.preventDefault();
         human.name = document.getElementById('name').value;
-
         document.getElementById('your-name').innerHTML = human.name
-
         this.reset();
     }
 
@@ -71,7 +71,7 @@ const gameBoard = (function () {
         let avail = [];
         let computerChoice;
 
-        // reduce to avail array with indexes of the available cells
+        // record the indices of available cells into avail array
         game.reduce(function (a, c, i) {
             if (c == '') a.push(i)
             return a;
@@ -82,36 +82,27 @@ const gameBoard = (function () {
 
         game[computerChoice] = computer.marker;
         handleResultValidation();
-        displayController.displayBoard(game); 
+        displayController.displayBoard(game);
 
-        // if computer didn't win this turn, return turn to human
-        if(gameActive) { 
-            
+        // if computer didn't win this turn, go to human's turn
+        if (gameActive) {
             handlePlayerChange();
-            
         }
     }
 
     // changes player after a player has taken a turn
     function handlePlayerChange() {
-
         if (currentPlayer == human) {
             currentPlayer = computer;
-            
-           
             moveComputer();
         } else {
             currentPlayer = human;
         }
-        // console.log(currentPlayer.name)
         displayController.displayStatus(currentPlayer, gameResult);
     }
 
-
-
     // check if anybody won yet
     function handleResultValidation() {
-
         for (let i = 0; i < winConditions.length; i++) {
 
             const checkWin = winConditions[i]; // eg [2, 4, 6]
@@ -128,26 +119,17 @@ const gameBoard = (function () {
             if (a === b && b === c) {
                 gameActive = false;
                 gameResult = 1;
-                // displayController.displayStatus(currentPlayer, gameResult);
                 break;
-            }
-            else if (!game.includes('')) {
+            } else if (!game.includes('')) {
                 gameActive = false;
                 gameResult = 2;
-                // displayController.displayStatus(currentPlayer, gameResult);
             }
         }
         displayController.displayStatus(currentPlayer, gameResult);
-        // Draw. All cells filled out but nobody won
-        // if (!game.includes('')) {
-        //     gameActive = false;
-        //     gameResult = 2;
-        //     displayController.displayStatus(currentPlayer, gameResult);
-        // }
     }
 
     function restartGame() {
-        game.fill("");
+        game.fill('');
         gameActive = true;
         gameResult = 0;
         currentPlayer = human;
@@ -160,9 +142,9 @@ const gameBoard = (function () {
 
     return {
         game,
-        handleCellClick,
         gameResult,
-        currentPlayer
+        currentPlayer,
+        handleCellClick
     };
 
 })();
@@ -206,27 +188,4 @@ const displayController = (function () {
         displayStatus,
         displayBoard
     }
-
 })();
-
-
-// Set up your HTML and write a JavaScript function that will render the contents of the gameboard array to the webpage (for now you can just manually fill in the array with "X"s and "O"s)
-
-
-
-// Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing in spots that are already taken!
-//     Think carefully about where each bit of logic should reside. Each little piece of functionality should be able to fit in the game, player or gameboard objects.. but take care to put them in “logical” places. Spending a little time brainstorming here can make your life much easier later!
-
-
-// Build the logic that checks for when the game is over! Should check for 3-in-a-row and a tie.
-
-
-
-
-
-
-
-// Clean up the interface to allow players to put in their names, include a button to start/restart the game and add a display element that congratulates the winning player!
-
-
-// Optional - If you’re feeling ambitious create an AI so that a player can play against the computer! 
