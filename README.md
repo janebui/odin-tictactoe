@@ -13,7 +13,7 @@ const Player = (name, marker) => {
         marker
     };
 };
-
+```
 ```javascript
 // module for the game logic
 const gameBoard = (function () {
@@ -25,7 +25,7 @@ const gameBoard = (function () {
         handleCellClick
     };
 })();
-
+```
 ```javascript
 // module to display the gameboard
 const displayController = (function () {
