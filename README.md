@@ -1,7 +1,7 @@
 # Odin Tic Tac Toe
 by Jane Bui
 
-This project from the Odin Project focuses on modules and factory functions.
+This is a project from [The Odin Project](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/tic-tac-toe) which focuses on modules and factory functions.
 
 ## Relevant Code
 
@@ -13,7 +13,7 @@ const Player = (name, marker) => {
         marker
     };
 };
-
+```javascript
 // module for the game logic
 const gameBoard = (function () {
     // game logic here
@@ -24,7 +24,7 @@ const gameBoard = (function () {
         handleCellClick
     };
 })();
-
+```javascript
 // module to display the gameboard
 const displayController = (function () {
     // display code
