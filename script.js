@@ -40,9 +40,14 @@ const gameBoard = (function () {
         [2, 4, 6]
     ];
 
+    function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|<>[\]\\]/g, ''); 
+      }      
+
     function handleName(e) {
         e.preventDefault();
-        human.name = document.getElementById('name').value;
+        human.name = escapeRegExp(document.getElementById('name').value);
+        console.log(human.name);
         document.getElementById('your-name').innerHTML = human.name
         this.reset();
     }
