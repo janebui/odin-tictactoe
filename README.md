@@ -14,6 +14,7 @@ const Player = (name, marker) => {
     };
 };
 ```
+
 Module for the game logic
 ```javascript
 const gameBoard = (function () {
@@ -26,6 +27,7 @@ const gameBoard = (function () {
     };
 })();
 ```
+
 Module to display the gameboard and status
 ```javascript
 const displayController = (function () {
