@@ -5,8 +5,8 @@ This is a project from [The Odin Project](https://www.theodinproject.com/paths/f
 
 ## Relevant Code
 
+Factory to make the players
 ```javascript
-// factory to make players
 const Player = (name, marker) => {
     return {
         name,
@@ -14,8 +14,8 @@ const Player = (name, marker) => {
     };
 };
 ```
+Module for the game logic
 ```javascript
-// module for the game logic
 const gameBoard = (function () {
     // game logic here
     return {
@@ -26,8 +26,8 @@ const gameBoard = (function () {
     };
 })();
 ```
+Module to display the gameboard and status
 ```javascript
-// module to display the gameboard
 const displayController = (function () {
     // display code
     return {
