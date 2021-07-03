@@ -11,9 +11,9 @@ const Player = (name, marker) => {
 const gameBoard = (function () {
     'use strict';
 
-    const X = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">  <g><line class="marker x" x1="9" y1="90" x2="90" y2="9"/><line class="marker x" x1="9" y1="9" x2="90" y2="90"/></g></svg>'
+    const X = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve" height="80px">  <g><line class="marker x" x1="9" y1="90" x2="90" y2="9"/><line class="marker x" x1="9" y1="9" x2="90" y2="90"/></g></svg>'
 
-    const O = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve"><circle class="marker" cx="49.5" cy="49.5" r="40.5"/></svg>'
+    const O = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve" height="80px"><circle class="marker" cx="49.5" cy="49.5" r="40.5"/></svg>'
 
     let human = Player('Human', X);
     let computer = Player('Computer', O)
