@@ -1,170 +1,127 @@
 body {
-    font-family: 'Playfair Display', sans-serif;
-    background-color: #F1EDEE;
+    background-color: #412A73;
+    color: #EDF2E9;
+    font-family: 'Nunito', sans-serif;
 }
 
-header {
-    font-size: 3em;
-    color: #3D5467;
-}
-
-#subtitle {
-    text-transform: uppercase;
-    letter-spacing: 0.5em;
-}
-
-#container {
-    background-color: #fff;
-    padding: 20px;
-    max-width: 1000px;
-    margin: 20px auto;
-}
-
-hr {
-    border: 0;
-    height: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-input[type="text"], input[type="number"] {
-    display: block;
-    font-size: 1.2em;
-    font-family: 'Playfair Display', sans-serif;
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #aaaaaa;
-    border-radius: 5px;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-}
-
-input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
-}
-
-#booklist {
-    margin: 0;
-    padding-left: 2px;
-}
-
-li {
-    list-style-type: none;
-    justify-content: space-between;
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: repeat(auto-fit, 100px);
+body,
+section {
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-li div:first-child {
-    font-weight:600;
+h1 {
+    font-size: 2.5em;
+    text-shadow: 
+        0 0 1px #3DB39B,
+        0 0 10px #266D96,
+        0 0 50px #266D96
 }
 
-li div:nth-child(-n+2) {
-    grid-column: span 2;
-  }
-
-/* li div:nth-child(4) {
-    justify-self: space-around;
-    color: aqua;
-} */
-
-
-.hide {
-    display: none;
+#gameboard {
+    display: grid;
+    width: 400px;
+    height: 400px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }
 
-#container2 {
+#gameboard div:nth-child(3n + 0),
+div:nth-child(3n -1) {
+    border-left: 5px solid rgba(0, 0, 0, 0.7);
+}
+
+#gameboard div:nth-child(-n+6) {
+    border-bottom: 5px solid rgba(0, 0, 0, 0.7);
+}
+
+.cell {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-#newbook,
-#add, #clear {
-    display: block;
-    margin: 20px auto;
-    width: 90px;
+.cell:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-button,
-.delete {
-    padding: 8px;
+#name-input {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+#name {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.5em;
     border: 0px transparent;
     border-radius: 5px;
-    color: #fff;
-    font-size: 1em;
-    text-align: center;
-    font-family: 'Playfair Display';
+    padding: 5px 10px;
 }
 
-button {
-    background-color: #8AA29E;
+.marker {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-miterlimit: 10;
 }
 
-button:hover {
-    background-color: #688d87;
+.svg-height {
+    height: 80px;
+}
+
+.x {
+    stroke: #C5F07F;
+}
+
+#your-name {
+    color: #C5F07F;
+}
+
+.cell {
     cursor: pointer;
 }
 
-.delete,
-#clear {
-    background-color: #D9556D;
-}
-
-.delete:hover,
-#clear:hover {
-    background-color: #d42646;
-    cursor: pointer;
-}
-
-#booklist input {
-    display: none;
-}
-
-#booklist input+label:before {
-    content: "Not Read";
-    padding: 7px 12px;
-    border: 1px solid #8AA29E;
+#restart,
+#name-btn {
+    margin-top: 5px;
     border-radius: 5px;
-    color: #8AA29E;
-    font-size: 1em;
-    display: inline-block;
-    text-align: center;
-    width: 80px;
+    border: 0px transparent;
+    padding: 5px 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2em;
+    background-color: #3DB39B;
     cursor: pointer;
-    /* margin: 0 8px; */
 }
 
-#booklist input:checked+label:before {
-    content: "Read";
-    border: 1px solid #8AA29E;
-    background-color: #8AA29E;
-    color: #fff;
-    width: 80px;
+#restart:hover,
+#name-btn:hover {
+    background-color: #C5F07F;
 }
 
 a {
-    color: #3D5467;
+    color: #3DB39B;
     text-decoration: none;
 }
 
 a:hover {
-    color: #d42646;
+    color: #C5F07F;
     text-decoration: underline;
 }
 
-@media only screen and (max-width: 480px) {
-    li {
-        display: flex;
-        flex-direction:column;
+a:visited {
+    color: #266D96;
+}
+
+@media only screen and (max-width: 400px) {
+    #gameboard {
+        width: 300px;
+        height: 300px;
     }
-    .delete {
-        width: 90px;
+
+    .svg-height {
+        height: 60px;
     }
-  }
+}
